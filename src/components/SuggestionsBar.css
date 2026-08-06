@@ -1,0 +1,38 @@
+.suggestions-bar {
+  background: var(--color-navy-dark);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.suggestions-bar__count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.suggestions-bar__icon {
+  font-size: 16px;
+}
+
+.suggestions-bar__add {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.suggestions-bar__add:hover {
+  background: var(--color-primary-dark);
+}

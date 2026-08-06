@@ -1,0 +1,18 @@
+.logo-card {
+  background: var(--gradient-brand);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.logo-card__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.logo-card__subtitle {
+  margin: 2px 0 0;
+  font-size: 14px;
+  opacity: 0.85;
+}
