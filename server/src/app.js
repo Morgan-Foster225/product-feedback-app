@@ -30,6 +30,7 @@ app.get('/get-all-suggestions', async (req, res) => {
     )
     res.json(rows)
   } catch (err) {
+    console.error('GET /get-all-suggestions failed:', err)
     res.status(500).json({ error: 'Failed to load suggestions.' })
   }
 })
@@ -48,6 +49,7 @@ app.get('/get-suggestions-by-category/:category', async (req, res) => {
     )
     res.json(rows)
   } catch (err) {
+    console.error('GET /get-suggestions-by-category failed:', err)
     res.status(500).json({ error: 'Failed to load suggestions.' })
   }
 })
@@ -68,6 +70,7 @@ app.post('/add-one-suggestion', async (req, res) => {
     )
     res.status(201).json(rows[0])
   } catch (err) {
+    console.error('POST /add-one-suggestion failed:', err)
     res.status(500).json({ error: 'Failed to add suggestion.' })
   }
 })
