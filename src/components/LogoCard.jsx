@@ -3,7 +3,7 @@ import './LogoCard.css'
 export default function LogoCard() {
   return (
     <div className="logo-card">
-      <p className="logo-card__title">My Company</p>
+      <h1 className="logo-card__title">My Company</h1>
       <p className="logo-card__subtitle">Feedback Board</p>
     </div>
   )
