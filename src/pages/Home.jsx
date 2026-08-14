@@ -13,9 +13,9 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [status, setStatus] = useState('loading')
 
-  const load = useCallback(() => {
+  const load = useCallback((category) => {
     setStatus('loading')
-    getSuggestions()
+    getSuggestions({ category })
       .then((data) => {
         setSuggestions(data)
         setStatus('idle')
@@ -26,13 +26,8 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    load()
-  }, [load])
-
-  const filtered =
-    activeCategory === 'All'
-      ? suggestions
-      : suggestions.filter((s) => s.category === activeCategory)
+    load(activeCategory)
+  }, [activeCategory, load])
 
   return (
     <div className="container board">
@@ -48,7 +43,7 @@ export default function Home() {
           <CategoryFilter active={activeCategory} onChange={setActiveCategory} />
         </div>
 
-        {status !== 'error' && <SuggestionsBar count={status === 'idle' ? filtered.length : 0} />}
+        {status !== 'error' && <SuggestionsBar count={status === 'idle' ? suggestions.length : 0} />}
 
         {status === 'loading' && (
           <div className="board__state" role="status">
@@ -59,13 +54,13 @@ export default function Home() {
         {status === 'error' && (
           <div className="board__state board__state--error" role="alert">
             <p>We couldn't load suggestions. Please try again.</p>
-            <button type="button" className="btn btn--primary" onClick={load}>
+            <button type="button" className="btn btn--primary" onClick={() => load(activeCategory)}>
               Retry
             </button>
           </div>
         )}
 
-        {status === 'idle' && filtered.length === 0 && suggestions.length === 0 && (
+        {status === 'idle' && suggestions.length === 0 && activeCategory === 'All' && (
           <div className="board__state board__state--empty">
             <EmptyIllustration />
             <h2>There is no feedback yet.</h2>
@@ -79,7 +74,7 @@ export default function Home() {
           </div>
         )}
 
-        {status === 'idle' && filtered.length === 0 && suggestions.length > 0 && (
+        {status === 'idle' && suggestions.length === 0 && activeCategory !== 'All' && (
           <div className="board__state board__state--empty">
             <p>No suggestions in this category yet.</p>
             <button type="button" className="btn btn--secondary" onClick={() => setActiveCategory('All')}>
@@ -88,9 +83,9 @@ export default function Home() {
           </div>
         )}
 
-        {status === 'idle' && filtered.length > 0 && (
+        {status === 'idle' && suggestions.length > 0 && (
           <div className="board__list">
-            {filtered.map((suggestion) => (
+            {suggestions.map((suggestion) => (
               <SuggestionCard key={suggestion.id} suggestion={suggestion} />
             ))}
           </div>

@@ -74,3 +74,14 @@ app.post('/add-one-suggestion', async (req, res) => {
     res.status(500).json({ error: 'Failed to add suggestion.' })
   }
 })
+
+// express.json() rejects malformed request bodies by calling next(err) with a
+// body-parser SyntaxError; without this handler Express falls back to its
+// default HTML error page, which breaks the API's all-JSON contract and
+// leaks internal file paths/stack traces to the client.
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Request body must be valid JSON.' })
+  }
+  next(err)
+})
