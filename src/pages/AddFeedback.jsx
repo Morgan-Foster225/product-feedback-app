@@ -63,7 +63,7 @@ export default function AddFeedback() {
   }
 
   return (
-    <div className="container add-feedback">
+    <main className="container add-feedback">
       <Link to="/" className="add-feedback__back">
         ‹ Go Back
       </Link>
@@ -156,6 +156,6 @@ export default function AddFeedback() {
           </div>
         </form>
       </div>
-    </div>
+    </main>
   )
 }
