@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { CATEGORIES } from '../api/categories'
 import { addSuggestion } from '../api/suggestions'
@@ -13,12 +13,13 @@ export default function AddFeedback() {
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [submitted, setSubmitted] = useState(false)
 
   const titleRef = useRef(null)
   const categoryRef = useRef(null)
   const descriptionRef = useRef(null)
 
-  function validate() {
+  const validate = useCallback(() => {
     const nextErrors = {}
     if (title.trim().length === 0 || title.length > 100) {
       nextErrors.title = "Can't be empty"
@@ -30,7 +31,16 @@ export default function AddFeedback() {
       nextErrors.description = "Can't be empty"
     }
     return nextErrors
-  }
+  }, [title, category, description])
+
+  // Once the user has attempted a submit, re-run validation live so a field's
+  // error clears as soon as it's corrected instead of lingering until the
+  // next submit attempt.
+  useEffect(() => {
+    if (submitted) {
+      setErrors(validate())
+    }
+  }, [validate, submitted])
 
   function focusFirstError(nextErrors) {
     if (nextErrors.title) {
@@ -44,6 +54,7 @@ export default function AddFeedback() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    setSubmitted(true)
     const nextErrors = validate()
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) {
