@@ -1,16 +1,85 @@
-# React + Vite
+# Product Feedback App
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A full-stack feedback board where users can browse feature/bug suggestions, filter them by category, and submit new ones. Built as a graded project for AnnieCannons' "Product Feedback App — AI-Assisted Track" course.
 
-Currently, two official plugins are available:
+**Live app:** https://productfeedbackapp-morgan.netlify.app
+**API:** https://product-feedback-app-a6ds.onrender.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+**Frontend**
+- React 19 + Vite
+- React Router
+- Plain CSS (no UI framework)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Backend**
+- Express 5
+- PostgreSQL (via `pg`)
+- CORS restricted to the deployed frontend origin
 
-## Expanding the Oxlint configuration
+**Deployment**
+- Frontend: Netlify (SPA redirect via `public/_redirects`)
+- Backend + DB: Render
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Project structure
+
+```
+.
+├── src/            # React frontend (Vite root)
+├── server/         # Express + Postgres API
+│   ├── src/app.js         # routes + validation
+│   ├── src/db.js          # Postgres pool
+│   ├── src/migrate.js     # runs migrations
+│   ├── src/seed.js        # seeds sample suggestions
+│   └── src/migrations/    # SQL migration files
+└── public/         # static assets, Netlify redirect rule
+```
+
+## API endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/get-all-suggestions` | All suggestions, newest first |
+| GET | `/get-suggestions-by-category/:category` | Suggestions filtered by category (`UI`, `UX`, `Enhancement`, `Bug`, `Feature`) |
+| POST | `/add-one-suggestion` | Create a suggestion (`title`, `category`, `description`) |
+
+## Running locally
+
+Requires Node and a local or hosted PostgreSQL database.
+
+### 1. Backend
+
+```bash
+cd server
+npm install
+cp .env.example .env
+```
+
+Set `DATABASE_URL` in `server/.env` to your Postgres connection string (`PORT` and `FRONTEND_ORIGIN` default to `3001` and `http://localhost:5173`).
+
+```bash
+npm run migrate   # create the suggestions table
+npm run seed      # optional: add sample data
+npm run dev        # starts the API on http://localhost:3001
+```
+
+### 2. Frontend
+
+From the project root, in a separate terminal:
+
+```bash
+npm install
+cp .env.example .env
+```
+
+`VITE_API_BASE_URL` defaults to `http://localhost:3001`, matching the backend above.
+
+```bash
+npm run dev        # starts the app on http://localhost:5173
+```
+
+## Linting
+
+```bash
+npm run lint       # oxlint, run from root or server/
+```
