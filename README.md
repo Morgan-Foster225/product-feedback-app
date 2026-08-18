@@ -4,9 +4,9 @@
 This project is a feedback board where users can browse feature and bug suggestions submitted by others, filter them by category, and submit new suggestions of their own. It's a full-stack app I built for AnnieCannons' "Product Feedback App — AI-Assisted Track" course, pairing a React frontend with an Express/PostgreSQL API I designed and built myself.
 
 ## 🚀 Live Site
-Check out the app: https://productfeedbackapp-morgan.netlify.app
+Check out the app: [https://productfeedbackapp-morgan.netlify.app](https://productfeedbackapp-morgan.netlify.app/)
 
-API: https://product-feedback-app-a6ds.onrender.com
+API: [https://product-feedback-app-a6ds.onrender.com](https://product-feedback-app-a6ds.onrender.com/)
 
 ## 🖼️ Screenshots
 ![Feedback board showing the category filter sidebar and a "couldn't load suggestions" retry state](docs/images/screenshot.png)
